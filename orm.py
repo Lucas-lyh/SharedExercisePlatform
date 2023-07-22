@@ -108,6 +108,7 @@ class Manager:
         '''
         根据用户名，查看对用户可见的问题组
         返回值为一个列表，列表中每个元素都有四个类变量，与QuestionGroup相同
+        结果只包括非公开问题组
         '''
         result = (QuestionGroup
             .select(QuestionGroup.id, QuestionGroup.group_name, QuestionGroup.creator_id, QuestionGroup.is_public)
@@ -123,6 +124,7 @@ class Manager:
         '''
         根据用户名，查看对某用户组可见的问题组
         返回值为一个列表，列表中每个元素都有四个类变量，与QuestionGroup相同
+        结果只包括非公开问题组
         '''
         result = (QuestionGroup
             .select(QuestionGroup.id, QuestionGroup.group_name, QuestionGroup.creator_id, QuestionGroup.is_public)
@@ -141,4 +143,4 @@ class Manager:
 # all.delete_instance()
 
 # db.create_tables([UserGroup, QuestionGroup, SolutionHistory, ReUserToGroup, ReQuestionToGroup, QuestionGroupPerm])
-Manager().select_allowed_questiongroup_by_usergroup('测试用户组')
+# Manager().select_allowed_questiongroup_by_usergroup('测试用户组')
