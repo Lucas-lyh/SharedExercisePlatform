@@ -51,16 +51,25 @@ number = [1]
 
 @ui.page("/login")
 def login_page():
-    with ui.card().classes("mx-auto my-auto h-96 w-96"):
-        ui.label().bind_text_from(app.storage.user, 'login')
+    ui.query('body').classes('bg-gradient-to-br from-blue-200 to-purple-200')
+    with ui.row().classes('mx-auto'):
+        ui.image('https://pic.imgdb.cn/item/64bcdda21ddac507cc03cdde.png').classes('w-12 h-12 py-8 px-8')
+        ui.label("星汉 Starry Sky").classes('tracking-wide font-serif font-bold text-4xl py-8 px-8 text-black italic')
+    with ui.card().classes("mx-auto my-auto h-96 w-96 bg-gradient-to-br from-purple-100 to-blue-100"):
+        ui.label("Shared Exercise Platform").classes('mx-auto tracking-wide text-2xl text-black')
+        ui.label("登录 Log In:").classes('mx-auto tracking-wide text-2xl text-black')
         with ui.column().classes("mx-auto my-auto"):
             with ui.row():
-                ui.input(label="用户名").bind_value_to(app.storage.browser, 'input_username')
+                ui.icon('person', color='text-indigo-400')
+                ui.input(label="用户名 Username").bind_value_to(app.storage.browser, 'input_username')
             with ui.row():
-                ui.input(label="密码").bind_value_to(app.storage.browser, 'input_password')
+                ui.icon('password', color='text-indigo-400')
+                ui.input(label="密码 Password").bind_value_to(app.storage.browser, 'input_password')
             with ui.row().classes("mx-auto"):
-                ui.button("登录", on_click=async_try_login).classes("mx-auto")
-                ui.button("返回", on_click=lambda: ui.open("/")).classes("mx-auto")
+                ui.button("登录 Log  In", on_click=async_try_login, color='text-indigo-700', icon='login') \
+                    .classes('mx-auto bg-gradient-to-br from-purple-300 to-blue-300')
+                ui.button("返回 Back   ", on_click=lambda: ui.open("/"), color='text-indigo-700', icon='logout') \
+                    .classes('mx-auto bg-gradient-to-br from-purple-300 to-blue-300')
     if app.storage.user.get('login', "False") == "True":
         print('redirect')
         ui.open(register_page)
@@ -69,18 +78,29 @@ def login_page():
 @ui.page("/register")
 def register_page():
     app.storage.user['count'] = app.storage.user.get('count', 0) + 1
-    with ui.row():
+    """with ui.row():
         ui.label('your own page visits:')
         ui.label().bind_text_from(app.storage.user, 'count')
-    with ui.card().classes("mx-auto my-auto h-96 w-96"):
+    """
+    ui.query('body').classes('bg-gradient-to-br from-blue-200 to-purple-200')
+    with ui.row().classes('mx-auto'):
+        ui.image('https://pic.imgdb.cn/item/64bcdda21ddac507cc03cdde.png').classes('w-12 h-12 py-8 px-8')
+        ui.label("星汉 Starry Sky").classes('tracking-wide font-serif font-bold text-4xl py-8 px-8 text-black italic')
+    with ui.card().classes("mx-auto my-auto h-96 w-96 bg-gradient-to-br from-purple-100 to-blue-100"):
+        ui.label("Shared Exercise Platform").classes('mx-auto tracking-wide text-2xl text-black')
+        ui.label("注册 Sign Up:").classes('mx-auto tracking-wide text-2xl text-black')
         with ui.column().classes("mx-auto my-auto"):
             with ui.row():
-                ui.input(label="用户名").bind_value_to(app.storage.browser, 'input_username')
+                ui.icon('person', color='text-indigo-400')
+                ui.input(label="用户名 Username").bind_value_to(app.storage.browser, 'input_username')
             with ui.row():
-                ui.input(label="密码").bind_value_to(app.storage.browser, 'input_password')
+                ui.icon('password', color='text-indigo-400')
+                ui.input(label="密码 Password").bind_value_to(app.storage.browser, 'input_password')
             with ui.row().classes("mx-auto"):
-                ui.button("注册", on_click=async_try_register).classes("mx-auto")
-                ui.button("返回", on_click=lambda: ui.open("/")).classes("mx-auto")
+                ui.button("注册 Sign Up", on_click=async_try_register, color='text-indigo-700', icon='history_edu') \
+                    .classes('mx-auto bg-gradient-to-br from-purple-300 to-blue-300')
+                ui.button("返回 Back   ", on_click=lambda: ui.open("/"), color='text-indigo-700', icon='logout') \
+                    .classes('mx-auto bg-gradient-to-br from-purple-300 to-blue-300')
 
 
 @ui.page("/user")
@@ -89,90 +109,132 @@ async def user_page():
         ui.button("无权限，返回主页", on_click=lambda: ui.open('/'))
         print("error")
     else:
-        ui.label('公告')
-        ui.label('敬请期待')
-        ui.button("退出", on_click=logout).classes('mx-auto')
-        with ui.header(elevated=True).style('background-color: #3874c8').classes('items-center justify-between'):
-            ui.label('HEADER')
-            ui.button(on_click=lambda: right_drawer.toggle(), icon='menu').props('flat color=white')
-        with ui.left_drawer(top_corner=True, bottom_corner=True).style('background-color: #d7e3f4'):
-            ui.label('LEFT DRAWER')
+        with ui.header(elevated=True) \
+                .classes('items-center justify-between bg-gradient-to-br from-blue-400 to-purple-300'):
+            ui.label("星汉 Starry Sky").classes('text-2xl font-bold tracking-wide font-serif text-white italic')
+            ui.button(on_click=lambda: search, icon='search').props('flat color=white')
+            ui.button(on_click=lambda: right_drawer.toggle(), icon='more_vert').props('flat color=white')
+        with ui.left_drawer(top_corner=False, bottom_corner=True) \
+                .classes('bg-gradient-to-r from-blue-100 to-purple-50'):
             with ui.column():
-                ui.link('首页', user_page)
-                ui.link('我的用户组', user_groups_page)
-                ui.link('我的问题组', question_groups_page)
-
-        with ui.right_drawer(fixed=False).style('background-color: #ebf1fa').props('bordered') as right_drawer:
-            ui.label('RIGHT DRAWER')
+                ui.button("首页   ", on_click=lambda: ui.open(user_page), color='text-indigo-700', icon='home') \
+                    .classes('bg-gradient-to-br from-purple-200 to-blue-200')
+                ui.button("我的用户组", on_click=lambda: ui.open(user_groups_page), color='text-indigo-700',
+                          icon='group').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+                ui.button("我的问题组", on_click=lambda: ui.open(question_groups_page), color='text-indigo-700',
+                          icon='receipt_long').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+        with ui.right_drawer(fixed=True).classes('bg-gradient-to-r from-blue-100 to-purple-50') \
+                .props('bordered') as right_drawer:
             with ui.column():
-                ui.link('个人信息', personal_information_page)
+                ui.button("个人信息 ", on_click=lambda: ui.open(personal_information_page), color='text-indigo-700',
+                          icon='person').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+                ui.button("退出   ", on_click=logout, color='text-indigo-700',
+                          icon='logout').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+        ui.query('body').classes('bg-gradient-to-r from-blue-100 to-white')
+        ui.image('https://pic.imgdb.cn/item/64bcdda21ddac507cc03cd98.jpg').classes('mx-auto')
+        with ui.row():
+            with ui.card().classes("mx-auto h-96 w-96 bg-gradient-to-br from-purple-50 to-purple-50"):
+                ui.label('公告').classes('mx-auto tracking-wide text-2xl text-black')
+                ui.label('敬请期待')
+            with ui.card().classes("mx-auto h-96 w-96 bg-gradient-to-br from-purple-50 to-purple-50"):
+                ui.label('做题记录').classes('mx-auto tracking-wide text-2xl text-black')
 
 
 @ui.page("/user_groups")
 async def user_groups_page():
+    with ui.header(elevated=True) \
+            .classes('items-center justify-between bg-gradient-to-br from-blue-400 to-purple-300'):
+        ui.label("星汉 Starry Sky").classes('text-2xl font-bold tracking-wide font-serif text-white italic')
+        ui.button(on_click=lambda: search, icon='search').props('flat color=white')
+        ui.button(on_click=lambda: right_drawer.toggle(), icon='more_vert').props('flat color=white')
+    with ui.left_drawer(top_corner=False, bottom_corner=True) \
+            .classes('bg-gradient-to-r from-blue-100 to-purple-50'):
+        with ui.column():
+            ui.button("首页   ", on_click=lambda: ui.open(user_page), color='text-indigo-700', icon='home') \
+                .classes('bg-gradient-to-br from-purple-200 to-blue-200')
+            ui.button("我的用户组", on_click=lambda: ui.open(user_groups_page), color='text-indigo-700',
+                      icon='group').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+            ui.button("我的问题组", on_click=lambda: ui.open(question_groups_page), color='text-indigo-700',
+                      icon='receipt_long').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+    with ui.right_drawer(fixed=True).classes('bg-gradient-to-r from-blue-100 to-purple-50') \
+            .props('bordered') as right_drawer:
+        with ui.column():
+            ui.button("个人信息 ", on_click=lambda: ui.open(personal_information_page), color='text-indigo-700',
+                      icon='person').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+            ui.button("退出   ", on_click=logout, color='text-indigo-700',
+                      icon='logout').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+    ui.query('body').classes('bg-gradient-to-r from-blue-100 to-white')
     ui.label('用户组列表')
-    ui.button("返回", on_click=logout).classes('mx-auto')
-    with ui.header(elevated=True).style('background-color: #3874c8').classes('items-center justify-between'):
-        ui.label('HEADER')
-        ui.button(on_click=lambda: right_drawer.toggle(), icon='menu').props('flat color=white')
-    with ui.left_drawer(top_corner=True, bottom_corner=True).style('background-color: #d7e3f4'):
-        ui.label('LEFT DRAWER')
-        with ui.column():
-            ui.link('首页', user_page)
-            ui.link('用户组', user_groups_page)
-            ui.link('问题组', question_groups_page)
-
-    with ui.right_drawer(fixed=False).style('background-color: #ebf1fa').props('bordered') as right_drawer:
-        ui.label('RIGHT DRAWER')
-        with ui.column():
-            ui.link('个人信息', personal_information_page)
 
 
 @ui.page("/question_groups")
 async def question_groups_page():
+    with ui.header(elevated=True) \
+            .classes('items-center justify-between bg-gradient-to-br from-blue-400 to-purple-300'):
+        ui.label("星汉 Starry Sky").classes('text-2xl font-bold tracking-wide font-serif text-white italic')
+        ui.button(on_click=lambda: search, icon='search').props('flat color=white')
+        ui.button(on_click=lambda: right_drawer.toggle(), icon='more_vert').props('flat color=white')
+    with ui.left_drawer(top_corner=False, bottom_corner=True) \
+            .classes('bg-gradient-to-r from-blue-100 to-purple-50'):
+        with ui.column():
+            ui.button("首页   ", on_click=lambda: ui.open(user_page), color='text-indigo-700', icon='home') \
+                .classes('bg-gradient-to-br from-purple-200 to-blue-200')
+            ui.button("我的用户组", on_click=lambda: ui.open(user_groups_page), color='text-indigo-700',
+                      icon='group').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+            ui.button("我的问题组", on_click=lambda: ui.open(question_groups_page), color='text-indigo-700',
+                      icon='receipt_long').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+    with ui.right_drawer(fixed=True).classes('bg-gradient-to-r from-blue-100 to-purple-50') \
+            .props('bordered') as right_drawer:
+        with ui.column():
+            ui.button("个人信息 ", on_click=lambda: ui.open(personal_information_page), color='text-indigo-700',
+                      icon='person').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+            ui.button("退出   ", on_click=logout, color='text-indigo-700',
+                      icon='logout').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+    ui.query('body').classes('bg-gradient-to-r from-blue-100 to-white')
     ui.label('问题组列表')
-    ui.button("返回", on_click=logout).classes('mx-auto')
-    with ui.header(elevated=True).style('background-color: #3874c8').classes('items-center justify-between'):
-        ui.label('HEADER')
-        ui.button(on_click=lambda: right_drawer.toggle(), icon='menu').props('flat color=white')
-    with ui.left_drawer(top_corner=True, bottom_corner=True).style('background-color: #d7e3f4'):
-        ui.label('LEFT DRAWER')
-        with ui.column():
-            ui.link('首页', user_page)
-            ui.link('用户组', user_groups_page)
-            ui.link('问题组', question_groups_page)
-
-    with ui.right_drawer(fixed=False).style('background-color: #ebf1fa').props('bordered') as right_drawer:
-        ui.label('RIGHT DRAWER')
-        with ui.column():
-            ui.link('个人信息', personal_information_page)
 
 
 @ui.page("/personal_information")
 async def personal_information_page():
+    with ui.header(elevated=True) \
+            .classes('items-center justify-between bg-gradient-to-br from-blue-400 to-purple-300'):
+        ui.label("星汉 Starry Sky").classes('text-2xl font-bold tracking-wide font-serif text-white italic')
+        ui.button(on_click=lambda: search, icon='search').props('flat color=white')
+        ui.button(on_click=lambda: right_drawer.toggle(), icon='more_vert').props('flat color=white')
+    with ui.left_drawer(top_corner=False, bottom_corner=True) \
+            .classes('bg-gradient-to-r from-blue-100 to-purple-50'):
+        with ui.column():
+            ui.button("首页   ", on_click=lambda: ui.open(user_page), color='text-indigo-700', icon='home') \
+                .classes('bg-gradient-to-br from-purple-200 to-blue-200')
+            ui.button("我的用户组", on_click=lambda: ui.open(user_groups_page), color='text-indigo-700',
+                      icon='group').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+            ui.button("我的问题组", on_click=lambda: ui.open(question_groups_page), color='text-indigo-700',
+                      icon='receipt_long').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+    with ui.right_drawer(fixed=True).classes('bg-gradient-to-r from-blue-100 to-purple-50') \
+            .props('bordered') as right_drawer:
+        with ui.column():
+            ui.button("个人信息 ", on_click=lambda: ui.open(personal_information_page), color='text-indigo-700',
+                      icon='person').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+            ui.button("退出   ", on_click=logout, color='text-indigo-700',
+                      icon='logout').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+    ui.query('body').classes('bg-gradient-to-r from-blue-100 to-white')
     ui.label('个人信息')
-    ui.button("返回", on_click=logout).classes('mx-auto')
-    with ui.header(elevated=True).style('background-color: #3874c8').classes('items-center justify-between'):
-        ui.label('HEADER')
-        ui.button(on_click=lambda: right_drawer.toggle(), icon='menu').props('flat color=white')
-    with ui.left_drawer(top_corner=True, bottom_corner=True).style('background-color: #d7e3f4'):
-        ui.label('LEFT DRAWER')
-        with ui.column():
-            ui.link('首页', user_page)
-            ui.link('用户组', user_groups_page)
-            ui.link('问题组', question_groups_page)
 
-    with ui.right_drawer(fixed=False).style('background-color: #ebf1fa').props('bordered') as right_drawer:
-        ui.label('RIGHT DRAWER')
-        with ui.column():
-            ui.link('个人信息', personal_information_page)
+
+def search():
+    a = 2
 
 
 with ui.column().classes("mx-auto my-auto"):
-    ui.query('body').classes('bg-gradient-to-br from-purple-200 to-blue-200')
-    ui.image('/img/StarryStar_Logo.png').classes('text-5xl mx-auto')
-    with ui.card().classes("mx-auto my-auto h-96 w-96"):
-        ui.label("欢迎！Welcome!")
-        ui.button("新来的？", on_click=lambda: ui.open(register_page))
-        ui.button("登录", on_click=lambda: ui.open(login_page))
+    ui.query('body').classes('bg-gradient-to-br from-blue-200 to-purple-200')
+    with ui.row().classes('mx-auto'):
+        ui.image('https://pic.imgdb.cn/item/64bcdda21ddac507cc03cdde.png').classes('w-12 h-12 py-8 px-8')
+        ui.label("星汉 Starry Sky").classes('tracking-wide font-serif font-bold text-4xl py-8 px-8 text-black italic')
+    with ui.card().classes("mx-auto my-auto h-96 w-96 bg-gradient-to-br from-purple-100 to-blue-100"):
+        ui.label("Shared Exercise Platform").classes('mx-auto tracking-wide text-2xl text-black')
+        ui.label("欢迎 Welcome!").classes('mx-auto tracking-wide text-2xl text-black')
+        ui.button("注册 Sign Up", on_click=lambda: ui.open(register_page), color='text-indigo-700', icon='history_edu') \
+            .classes('mx-auto bg-gradient-to-br from-purple-300 to-blue-300')
+        ui.button("登录 Log  In", on_click=lambda: ui.open(login_page), color='text-indigo-700', icon='login') \
+            .classes('mx-auto bg-gradient-to-br from-purple-300 to-blue-300')
 ui.run(storage_secret='buaa2023')
