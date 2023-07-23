@@ -99,8 +99,8 @@ async def user_page():
             ui.label('LEFT DRAWER')
             with ui.column():
                 ui.link('首页', user_page)
-                ui.link('用户组', user_groups_page)
-                ui.link('问题组', question_groups_page)
+                ui.link('我的用户组', user_groups_page)
+                ui.link('我的问题组', question_groups_page)
 
         with ui.right_drawer(fixed=False).style('background-color: #ebf1fa').props('bordered') as right_drawer:
             ui.label('RIGHT DRAWER')
@@ -168,8 +168,11 @@ async def personal_information_page():
             ui.link('个人信息', personal_information_page)
 
 
-with ui.column().classes("mx-auto"):
-    ui.label("欢迎！Welcome!")
-    ui.button("新来的？", on_click=lambda: ui.open(register_page))
-    ui.button("登录", on_click=lambda: ui.open(login_page))
+with ui.column().classes("mx-auto my-auto"):
+    ui.query('body').classes('bg-gradient-to-br from-purple-200 to-blue-200')
+    ui.image('/img/StarryStar_Logo.png').classes('text-5xl mx-auto')
+    with ui.card().classes("mx-auto my-auto h-96 w-96"):
+        ui.label("欢迎！Welcome!")
+        ui.button("新来的？", on_click=lambda: ui.open(register_page))
+        ui.button("登录", on_click=lambda: ui.open(login_page))
 ui.run(storage_secret='buaa2023')
