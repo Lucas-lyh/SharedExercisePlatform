@@ -106,19 +106,18 @@ class Manager:
     
     def select_allowed_questiongroup_by_user(self, username):
         '''
-        根据用户名，查看对用户可见的问题组
+        根据用户名，查看对该用户可见的问题组
         返回值为一个列表，列表中每个元素都有四个类变量，与QuestionGroup相同
         结果只包括非公开问题组
         '''
-        result = (QuestionGroup
+        results = (QuestionGroup
             .select(QuestionGroup.id, QuestionGroup.group_name, QuestionGroup.creator_id, QuestionGroup.is_public)
             .join(QuestionGroupPerm, on=(QuestionGroupPerm.question_group_id == QuestionGroup.id))
             .join(UserGroup, on=(QuestionGroupPerm.user_group_id == UserGroup.id))
             .join(ReUserToGroup, on=(UserGroup.id == ReUserToGroup.group_id))
             .join(User, on=(ReUserToGroup.user_id == User.id))
             .where(User.username == username))
-        print(result[0].creator_id)
-        return result
+        return results
     
     def select_allowed_questiongroup_by_usergroup(self, group_name):
         '''
@@ -126,15 +125,15 @@ class Manager:
         返回值为一个列表，列表中每个元素都有四个类变量，与QuestionGroup相同
         结果只包括非公开问题组
         '''
-        result = (QuestionGroup
+        results = (QuestionGroup
             .select(QuestionGroup.id, QuestionGroup.group_name, QuestionGroup.creator_id, QuestionGroup.is_public)
             .join(QuestionGroupPerm, on=(QuestionGroupPerm.question_group_id == QuestionGroup.id))
             .join(UserGroup, on=(QuestionGroupPerm.user_group_id == UserGroup.id))
             .where(UserGroup.group_name == group_name))
-        print(result[0].group_name)
-        return result
-    
-    
+        return results   
+
+    def select_public_questiongroup(self):
+        return QuestionGroup.select().where(QuestionGroup.is_public == True) 
 
 # User.create_table()
 # user = User(username = "lucas", password = "buaa2023")
@@ -143,4 +142,5 @@ class Manager:
 # all.delete_instance()
 
 # db.create_tables([UserGroup, QuestionGroup, SolutionHistory, ReUserToGroup, ReQuestionToGroup, QuestionGroupPerm])
-# Manager().select_allowed_questiongroup_by_usergroup('测试用户组')
+
+
