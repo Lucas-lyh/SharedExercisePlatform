@@ -1,6 +1,7 @@
 from peewee import *
 import pymysql
 import datetime
+from sensi_filter import SensiwordFilter
 db = MySQLDatabase("testdatabase", user='root', password='buaa2023', host='43.143.129.27',
                            port=3306)
 
@@ -89,6 +90,14 @@ class QuestionGroupPerm(Model):
         table_name = 'question_group_perm'
         constraints = [SQL('UNIQUE(user_group_id, question_group_id)')]
 
+class SensitiveWord(Model):
+    '''记录敏感词汇'''
+    id = AutoField(primary_key=True)
+    word = CharField(max_length=32)
+    class Meta:
+        database = db
+        table_name = 'sensitive_word'
+
 class Manager:
     def try_login(self, username, pwhash):
         users = User.select().where(User.username == username)
@@ -132,11 +141,23 @@ class Manager:
             .where(UserGroup.group_name == group_name))
         return results   
 
-    def select_public_questiongroup(self):
+    def select_public_questiongroup(self)->list[Question]:
+        '''查找全部的公开问题组'''
         return QuestionGroup.select().where(QuestionGroup.is_public == True) 
     
+    def select_sensitive_question(self):
+        '''查找全部的带有敏感词的问题'''
+        sensi_filter = SensiwordFilter()
+        words = SensitiveWord.select()
+        for word in words:
+            sensi_filter.add_sensitive_word(word.word)
+
+        questions = Question.select()
+        return [q for q in questions if sensi_filter.check(q.content)]
+        
+    
 if __name__ == '__main__':
-    db.create_tables([User, UserGroup, Question, QuestionGroup, SolutionHistory, ReUserToGroup, ReQuestionToGroup, QuestionGroupPerm])
+    db.create_tables([User, UserGroup, Question, QuestionGroup, SolutionHistory, ReUserToGroup, ReQuestionToGroup, QuestionGroupPerm, SensitiveWord])
 
 # User.create_table()
 # user = User(username = "lucas", password = "buaa2023")

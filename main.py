@@ -64,7 +64,7 @@ def login_page():
                 ui.input(label="用户名 Username").bind_value_to(app.storage.browser, 'input_username')
             with ui.row():
                 ui.icon('password', color='text-indigo-400')
-                ui.input(label="密码 Password").bind_value_to(app.storage.browser, 'input_password')
+                ui.input(label="密码 Password", password=True).bind_value_to(app.storage.browser, 'input_password')
             with ui.row().classes("mx-auto"):
                 ui.button("登录 Log  In", on_click=async_try_login, color='text-indigo-700', icon='login') \
                     .classes('mx-auto bg-gradient-to-br from-purple-300 to-blue-300')
@@ -95,7 +95,7 @@ def register_page():
                 ui.input(label="用户名 Username").bind_value_to(app.storage.browser, 'input_username')
             with ui.row():
                 ui.icon('password', color='text-indigo-400')
-                ui.input(label="密码 Password").bind_value_to(app.storage.browser, 'input_password')
+                ui.input(label="密码 Password", password=True).bind_value_to(app.storage.browser, 'input_password')
             with ui.row().classes("mx-auto"):
                 ui.button("注册 Sign Up", on_click=async_try_register, color='text-indigo-700', icon='history_edu') \
                     .classes('mx-auto bg-gradient-to-br from-purple-300 to-blue-300')
