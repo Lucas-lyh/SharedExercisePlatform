@@ -134,6 +134,9 @@ class Manager:
 
     def select_public_questiongroup(self):
         return QuestionGroup.select().where(QuestionGroup.is_public == True) 
+    
+if __name__ == '__main__':
+    db.create_tables([User, UserGroup, Question, QuestionGroup, SolutionHistory, ReUserToGroup, ReQuestionToGroup, QuestionGroupPerm])
 
 # User.create_table()
 # user = User(username = "lucas", password = "buaa2023")
