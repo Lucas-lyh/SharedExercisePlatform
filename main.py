@@ -106,13 +106,13 @@ async def user_page():
 @ui.page("/user_groups")
 async def user_groups_page():
     init_page()
-    ui.label('用户组列表')
+    ui.label('用户组列表').classes('tracking-wide text-2xl py-8 text-black')
 
 
 @ui.page("/question_groups")
 async def question_groups_page():
     init_page()
-    ui.label('问题组列表')
+    ui.label('问题组列表').classes('tracking-wide text-2xl py-8 text-black')
 
 
 

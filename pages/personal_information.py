@@ -22,7 +22,7 @@ def update_information():
 @ui.page("/personal_information")
 async def personal_information_page():
     init_page()
-    ui.label('个人信息')
+    ui.label('个人信息').classes('tracking-wide text-2xl py-8 text-black')
     global username,password
     with ui.row():
         with ui.column():
