@@ -165,7 +165,7 @@ class Manager:
         questions = Question.select()
         return [q for q in questions if sensi_filter.check(q.content)]
         
-    
+manager = Manager()
 if __name__ == '__main__':
     db.create_tables([User, UserGroup, Question, QuestionGroup, SolutionHistory, ReUserToGroup, ReQuestionToGroup, QuestionGroupPerm, SensitiveWord])
 
