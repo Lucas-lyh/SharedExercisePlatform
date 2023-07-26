@@ -1,6 +1,4 @@
 from peewee import *
-import pymysql
-import datetime
 from sensi_filter import SensiwordFilter
 db = MySQLDatabase("testdatabase", user='root', password='buaa2023', host='43.143.129.27',
                            port=3306)
