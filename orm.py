@@ -63,8 +63,8 @@ class SolutionHistory(Model):
 class ReUserToGroup(Model):
     '''记录用户与用户组的所属关系'''
     id = AutoField(primary_key=True)
-    user_id = ForeignKeyField(User)
-    group_id = ForeignKeyField(UserGroup)
+    user_id = ForeignKeyField(User, on_delete='CASCADE')
+    group_id = ForeignKeyField(UserGroup, on_delete='CASCADE')
     class Meta:
         database = db
         table_name = 're_user_to_group'
@@ -73,8 +73,8 @@ class ReUserToGroup(Model):
 class ReQuestionToGroup(Model):
     '''记录问题与问题组的所属关系'''
     id = AutoField(primary_key=True)
-    question_id = ForeignKeyField(Question)
-    group_id = ForeignKeyField(QuestionGroup)
+    question_id = ForeignKeyField(Question, on_delete='CASCADE')
+    group_id = ForeignKeyField(QuestionGroup, on_delete='CASCADE')
     class Meta:
         database = db
         table_name = 're_question_to_group'
@@ -83,8 +83,8 @@ class ReQuestionToGroup(Model):
 class QuestionGroupPerm(Model):
     '''记录问题组的权限'''
     id = AutoField(primary_key=True)
-    user_group_id = ForeignKeyField(UserGroup)
-    question_group_id = ForeignKeyField(QuestionGroup)
+    user_group_id = ForeignKeyField(UserGroup, on_delete='CASCADE')
+    question_group_id = ForeignKeyField(QuestionGroup, on_delete='CASCADE')
     class Meta:
         database = db
         table_name = 'question_group_perm'
@@ -157,7 +157,7 @@ class Manager:
         
     
 if __name__ == '__main__':
-    db.create_tables([User, UserGroup, Question, QuestionGroup, SolutionHistory, ReUserToGroup, ReQuestionToGroup, QuestionGroupPerm, SensitiveWord])
+    db.create_tables([User, UserGroup, Question, QuestionGroup, SolutionHistory, ReUserToGroup, ReQuestionToGroup, QuestionGroupPerm, SensitiveWord])  
 
 # User.create_table()
 # user = User(username = "lucas", password = "buaa2023")
