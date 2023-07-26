@@ -112,6 +112,16 @@ class Manager:
         new_user = User(username = username, password = pwhash)
         new_user.save()
         return True
+
+    def update_information(self, username,pwhash):
+        users = User.select().where(User.username == username)
+        if(len(users)==0):
+            return False, "未找到该用户"
+        else:
+            user = users[0]
+        user.password = pwhash
+        user.save()
+        return True, "修改成功"
     
     def select_allowed_questiongroup_by_user(self, username):
         '''
@@ -155,9 +165,10 @@ class Manager:
         questions = Question.select()
         return [q for q in questions if sensi_filter.check(q.content)]
         
-    
+manager = Manager()
 if __name__ == '__main__':
-    db.create_tables([User, UserGroup, Question, QuestionGroup, SolutionHistory, ReUserToGroup, ReQuestionToGroup, QuestionGroupPerm, SensitiveWord])
+    User.delete().where(User.username == "luyuheng").execute()
+    # db.create_tables([User, UserGroup, Question, QuestionGroup, SolutionHistory, ReUserToGroup, ReQuestionToGroup, QuestionGroupPerm, SensitiveWord])
 
 # User.create_table()
 # user = User(username = "lucas", password = "buaa2023")
